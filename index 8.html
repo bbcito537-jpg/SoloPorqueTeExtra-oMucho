@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SoloPorqueTeExtrañabaMucho</title>
+<style>
+:root{
+  --bg1:#0f1124;
+  --bg2:#1f1839;
+  --card:#241d40ee;
+  --card2:#312855;
+  --text:#fff8fb;
+  --muted:#dacde9;
+  --pink:#f4a7c7;
+  --pink2:#ffd8e8;
+  --rose:#ff7eb3;
+  --violet:#8f84ff;
+  --soft:#ffffff14;
+  --soft2:#ffffff0c;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,126,179,.16), transparent 25%),
+    radial-gradient(circle at 85% 20%, rgba(143,132,255,.18), transparent 24%),
+    radial-gradient(circle at 10% 90%, rgba(244,167,199,.1), transparent 20%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+  overflow:hidden;
+}
+#app{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:18px}
+.layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.star, .heart, .sparkle { position:absolute; }
+.star {
+  width:3px;height:3px;border-radius:50%;background:white;opacity:.8;
+  box-shadow:0 0 12px rgba(255,255,255,.9);
+  animation: twinkle 3s ease-in-out infinite;
+}
+.heart{
+  font-size:16px;opacity:.17;
+  animation: floatUp linear infinite;
+}
+.sparkle{
+  width:8px;height:8px;border-radius:999px;
+  background:radial-gradient(circle,var(--pink2),transparent 70%);
+  animation: burst .65s ease-out forwards;
+}
+@keyframes twinkle{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes floatUp{0%{transform:translateY(80px) scale(.8);opacity:0}10%{opacity:.18}90%{opacity:.18}100%{transform:translateY(-110vh) scale(1.15);opacity:0}}
+@keyframes burst{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.2);opacity:0}}
+@keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.panel{
+  width:min(100%,430px);max-height:100%;position:relative;z-index:2;
+  background:linear-gradient(180deg,var(--card),rgba(24,20,43,.96));
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:30px; box-shadow:0 22px 60px rgba(0,0,0,.36);
+  backdrop-filter: blur(10px);
+  padding:18px 18px 16px; animation:pop .3s ease;
+}
+.topline{text-align:center;color:var(--pink);font-weight:800;letter-spacing:.22em;text-transform:uppercase;font-size:.74rem;margin:4px 0 10px}
+.title{font-family:Georgia,serif;font-size:2rem;line-height:1.08;text-align:center;margin:6px 4px 10px}
+.subtitle{color:var(--muted);font-size:1rem;line-height:1.55;text-align:center;margin:0 4px 16px}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;background:var(--soft);color:var(--pink2);font-size:.88rem;margin:0 auto 12px}
+.center{text-align:center}
+.btn,.choice,.ghost{
+  width:100%;border:0;border-radius:18px;padding:15px 14px;margin-top:12px;
+  font-size:1rem;font-weight:800;line-height:1.35;cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.btn{background:linear-gradient(180deg,var(--pink),var(--rose));color:#2c1a2e;box-shadow:0 16px 30px rgba(255,126,179,.25)}
+.choice{background:linear-gradient(180deg,#40366c,#2b2449);color:var(--text);box-shadow:0 14px 26px rgba(0,0,0,.2)}
+.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,.12)}
+.btn:active,.choice:active,.ghost:active,.sound:active,.floating-star:active{transform:scale(.985)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sound{background:var(--soft);border:1px solid rgba(255,255,255,.08);color:var(--text);border-radius:999px;padding:10px 12px;font-size:.88rem;font-weight:700;cursor:pointer}
+.progress{display:flex;justify-content:center;gap:8px;margin:4px 0 14px}
+.dot{width:10px;height:10px;border-radius:999px;background:#ffffff22;border:1px solid #ffffff20}
+.dot.active{background:var(--pink);box-shadow:0 0 0 4px rgba(244,167,199,.14)}
+.card-note{background:var(--soft2);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:14px;color:var(--muted);line-height:1.58}
+.hero{font-size:58px;text-align:center;line-height:1;margin:4px 0 8px;animation:pulse 2.2s infinite}
+.area{
+  position:relative;height:330px;margin-top:6px;border-radius:22px;overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
+}
+.floating-star{
+  position:absolute;width:54px;height:54px;border-radius:999px;border:0;cursor:pointer;
+  background:radial-gradient(circle at 35% 35%, #fff, var(--pink2) 36%, var(--pink) 58%, rgba(255,255,255,.1) 62%);
+  box-shadow:0 0 18px rgba(244,167,199,.42);
+  color:#44253e;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;
+}
+.count{margin-top:12px;text-align:center;color:var(--pink2);font-weight:700}
+.flash{position:absolute;inset:auto 50% 24px auto;transform:translateX(50%);background:#00000055;padding:8px 12px;border-radius:999px;color:white;font-size:.9rem;opacity:0;transition:opacity .2s}
+.flash.show{opacity:1}
+.meter{height:8px;border-radius:999px;background:#ffffff12;overflow:hidden;margin:8px 0 6px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--rose));transition:width .25s ease}
+.final-letter{font-size:.98rem;line-height:1.65;color:var(--muted)}
+.small{font-size:.86rem;color:#cfc2df;text-align:center;margin-top:12px}
+.confetti{position:absolute; width:10px; height:10px; border-radius:3px; opacity:.9; animation:fall 1400ms linear forwards}
+@keyframes fall{0%{transform:translateY(-30px) rotate(0deg)}100%{transform:translateY(120vh) rotate(640deg); opacity:0}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="layer" id="stars"></div>
+  <div class="layer" id="hearts"></div>
+  <div id="screen"><div class="panel">
+<div class="topline">✦ Bella ✦</div>
+<div class="title">SoloPorqueTeExtrañabaMucho</div>
+<div class="subtitle">Un cielo de estrellitas, un poquito de música y una sorpresa de tu chinito.</div>
+<div class="hero">💌</div>
+<div class="card-note">Para jugar con animaciones y música, abre esta página en Safari desde un enlace web de GitHub Pages. El visor de archivos de ChatGPT muestra el diseño, pero puede impedir que el juego funcione.</div>
+<button class="btn" onclick="startExperience()">Empezar la misión ✨</button>
+</div></div>
+</div>
+<script>
+const screen = document.getElementById('screen');
+const starLayer = document.getElementById('stars');
+const heartLayer = document.getElementById('hearts');
+
+const state = {scene:'intro', caught:0, muted:false, audioStarted:false};
+let audioCtx, musicTimer;
+
+function makeSky(){
+  starLayer.innerHTML=''; heartLayer.innerHTML='';
+  for(let i=0;i<34;i++){
+    const s=document.createElement('div'); s.className='star';
+    s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    s.style.opacity=(.25+Math.random()*.7);
+    starLayer.appendChild(s);
+  }
+  for(let i=0;i<12;i++){
+    const h=document.createElement('div'); h.className='heart';
+    h.textContent=Math.random()>.42?'❤':'✦';
+    h.style.left=Math.random()*100+'%';
+    h.style.bottom=(-20-Math.random()*120)+'px';
+    h.style.animationDuration=(10+Math.random()*8)+'s';
+    h.style.animationDelay=(Math.random()*8)+'s';
+    h.style.fontSize=(14+Math.random()*14)+'px';
+    heartLayer.appendChild(h);
+  }
+}
+
+function toolbar(){
+  return `<div class="toolbar"><div></div><button class="sound" onclick="toggleMusic()">${state.muted?'🔇 Música apagada':'🎵 Música'}</button></div>`;
+}
+function progress(step,total=4){
+  let html='<div class="progress">';
+  for(let i=1;i<=total;i++) html += `<div class="dot ${i<=step?'active':''}"></div>`;
+  html += '</div>'; return html;
+}
+function panel(inner){ screen.innerHTML = `<div class="panel">${inner}</div>`; }
+
+function render(){
+  switch(state.scene){
+    case 'intro': return renderIntro();
+    case 'catch': return renderCatch();
+    case 'q2': return renderQ2();
+    case 'reveal': return renderReveal();
+    case 'final': return renderFinal();
+    case 'oops': return renderOops();
+  }
+}
+
+function renderIntro(){
+  panel(`
+    ${toolbar()}
+    <div class="topline">✦ Bella ✦</div>
+    <div class="title">SoloPorqueTeExtrañabaMucho</div>
+    <div class="subtitle">No quería que fuera solo un juego de palabras. Quería algo más bonito, con un poquito de magia, para que lo sientas como una mini experiencia hecha para ti.</div>
+    <div class="center"><div class="badge">💗 Tócalo y empieza la misión</div></div>
+    <div class="hero">💌</div>
+    <div class="card-note">Tiene tres momentos: una pequeña misión visual, una pregunta que solo tú puedes contestar y un final guardado especialmente para ti. La música empieza cuando toques el botón, porque el iPhone no la deja sonar sola.</div>
+    <button class="btn" onclick="startExperience()">Empezar</button>
+    <div class="small">Hecho para Bella, manteniendo los colores que te gustaron.</div>
+  `);
+}
+
+function startExperience(){
+  startMusic();
+  state.scene='catch';
+  state.caught=0;
+  render();
+  spawnStars();
+}
+
+function renderCatch(){
+  panel(`
+    ${toolbar()}
+    ${progress(1)}
+    <div class="topline">Primera parte</div>
+    <div class="title">Atrapa mis estrellitas</div>
+    <div class="subtitle">Toca <b>5 estrellas</b>. Cada una representa una cosa bonita que sentí aquel jueves cuando por fin te vi en persona.</div>
+    <div class="meter"><div class="fill" id="fill" style="width:${(state.caught/5)*100}%"></div></div>
+    <div class="count" id="count">${state.caught} de 5 atrapadas ✨</div>
+    <div class="area" id="playArea"><div class="flash" id="flash"></div></div>
+    <button class="ghost" onclick="state.scene='intro'; render();">Volver al inicio</button>
+  `);
+}
+
+const starTexts = [
+  'Tus ojos',
+  'Tu sonrisa',
+  'Tus abrazos',
+  'Tu ternura',
+  'Tu voz'
+];
+
+function spawnStars(){
+  const area = document.getElementById('playArea');
+  if(!area) return;
+  area.innerHTML = '<div class="flash" id="flash"></div>';
+  const used = [];
+  for(let i=0;i<5;i++){
+    const b = document.createElement('button');
+    b.className='floating-star';
+    b.textContent='✦';
+    b.dataset.label=starTexts[i];
+    let x,y,ok=false,tries=0;
+    while(!ok && tries<120){
+      x = 12 + Math.random()*76; y = 10 + Math.random()*74; ok=true; tries++;
+      for(const p of used){ if(Math.abs(p.x-x)<16 && Math.abs(p.y-y)<18) ok=false; }
+    }
+    used.push({x,y});
+    b.style.left = `calc(${x}% - 27px)`;
+    b.style.top = `calc(${y}% - 27px)`;
+    b.onclick=()=>catchStar(b);
+    area.appendChild(b);
+  }
+}
+
+function catchStar(btn){
+  if(btn.disabled) return;
+  btn.disabled=true;
+  btn.style.visibility='hidden';
+  state.caught++;
+  const fill = document.getElementById('fill');
+  const count = document.getElementById('count');
+  if(fill) fill.style.width = `${(state.caught/5)*100}%`;
+  if(count) count.textContent = `${state.caught} de 5 atrapadas ✨`;
+  sparkleBurst(btn, btn.dataset.label);
+  ping(660, .08, 'triangle');
+  if(state.caught >= 5){
+    setTimeout(()=>{ state.scene='q2'; render(); }, 700);
+  }
+}
+
+function sparkleBurst(btn,label){
+  const rect = btn.getBoundingClientRect();
+  const area = document.getElementById('playArea');
+  const areaRect = area.getBoundingClientRect();
+  const x = rect.left - areaRect.left + rect.width/2;
+  const y = rect.top - areaRect.top + rect.height/2;
+  const flash = document.getElementById('flash');
+  if(flash){ flash.textContent = label; flash.classList.add('show'); setTimeout(()=>flash.classList.remove('show'), 500); }
+  for(let i=0;i<8;i++){
+    const sp=document.createElement('div'); sp.className='sparkle';
+    sp.style.left=(x-4)+'px'; sp.style.top=(y-4)+'px';
+    sp.style.setProperty('--dx', (Math.random()*80-40)+'px');
+    sp.style.setProperty('--dy', (Math.random()*80-40)+'px');
+    area.appendChild(sp); setTimeout(()=>sp.remove(),700);
+  }
+}
+
+function renderQ2(){
+  panel(`
+    ${toolbar()}
+    ${progress(2)}
+    <div class="topline">Segunda parte</div>
+    <div class="title">Ahora sí… una pregunta</div>
+    <div class="subtitle">¿Qué me pasa cada vez que Bella aparece?</div>
+    <button class="choice" onclick="goReveal()">A) Se me alegran los ojitos</button>
+    <button class="choice" onclick="goReveal()">B) Me convierto en una papa emocional</button>
+    <button class="choice" onclick="goReveal()">C) Se activa una alarma de amor</button>
+    <div class="card-note" style="margin-top:12px">Confidencia: las tres tienen algo de verdad, pero tú y yo sabemos cuál es la respuesta más bonita.</div>
+  `);
+}
+
+function goReveal(){ ping(520,.1,'sine'); state.scene='reveal'; render(); }
+
+function renderReveal(){
+  panel(`
+    ${toolbar()}
+    ${progress(3)}
+    <div class="topline">Tercera parte</div>
+    <div class="title">Desbloquea el mensaje</div>
+    <div class="subtitle">Toca el sobre para abrir lo que estaba guardado para ti.</div>
+    <div class="center"><button class="btn" style="font-size:1.08rem" onclick="openFinal()">💌 Abrir sobre</button></div>
+    <div class="hero">✨</div>
+    <div class="card-note">Pista: todo esto existe porque te extrañaba mucho.</div>
+  `);
+}
+
+function openFinal(){
+  burstConfetti();
+  ping(740,.12,'triangle');
+  setTimeout(()=>{ state.scene='final'; render(); }, 380);
+}
+
+function renderFinal(){
+  panel(`
+    ${toolbar()}
+    ${progress(4)}
+    <div class="topline">Mensaje final</div>
+    <div class="title">Para Bella</div>
+    <div class="hero">💗</div>
+    <div class="final-letter">Bella, este jueguito existe <b>solo porque te extrañaba mucho</b>. Quería darte algo más bonito que un simple texto: un pedacito de experiencia que se sintiera suave, linda y un poco mágica, como se siente pensar en ti.<br><br>
+    Me encanta imaginar tu sonrisa cuando abres algo mío. Me encanta recordar aquel primer jueves en persona, después de cinco meses conociéndonos y tres meses siendo novios. Me acuerdo de tus ojos, de lo hermosa que te veías y de cómo algo dentro de mí se quedó viviendo en ese momento.<br><br>
+    Si te extraño tanto, si te pienso así de fuerte y si a veces hasta exagero, es porque contigo me siento demasiado feliz. Y sí, mientras vuelves, yo voy a seguir aquí: pensándote en las horas, en los minutos, en los segundos y hasta en los milisegundos.<br><br>
+    <b>Te amo muchísimo, Bella.</b></div>
+    <button class="btn" onclick="restartAll()">Volver a jugar</button>
+  `);
+}
+
+function restartAll(){ state.caught=0; state.scene='intro'; render(); }
+function renderOops(){ panel('<div class="panel">Error</div>'); }
+
+function burstConfetti(){
+  for(let i=0;i<28;i++){
+    const c=document.createElement('div'); c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw'; c.style.top='-10px';
+    c.style.background=["#f4a7c7","#ff7eb3","#8f84ff","#ffd8e8"][Math.floor(Math.random()*4)];
+    c.style.animationDuration=(1100+Math.random()*800)+'ms';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),1900);
+  }
+}
+
+function toggleMusic(){
+  if(!audioCtx) { startMusic(); return; }
+  state.muted = !state.muted;
+  if(audioCtx.state === 'suspended' && !state.muted) audioCtx.resume();
+  render();
+}
+
+function startMusic(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    audioCtx = new AC();
+    startLoop();
+  }
+  if(audioCtx.state === 'suspended') audioCtx.resume();
+  state.muted = false;
+  state.audioStarted = true;
+}
+
+function ping(freq=550,dur=.08,type='sine'){
+  if(!audioCtx || state.muted) return;
+  const t = audioCtx.currentTime;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(0.03,t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g).connect(audioCtx.destination);
+  o.start(t); o.stop(t+dur+.02);
+}
+
+function playTone(freq, start, dur, gain=.02, type='triangle'){
+  if(!audioCtx || state.muted) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, start);
+  g.gain.setValueAtTime(0.0001, start);
+  g.gain.exponentialRampToValueAtTime(gain, start + 0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+  o.connect(g).connect(audioCtx.destination);
+  o.start(start); o.stop(start + dur + 0.04);
+}
+
+function midi(n){ return 440 * Math.pow(2, (n-69)/12); }
+function startLoop(){
+  const pattern = [69,72,76,72,67,71,74,71]; // A C E C / G B D B
+  let nextBar = 0;
+  function schedule(){
+    if(!audioCtx) return;
+    const now = audioCtx.currentTime;
+    if(nextBar === 0) nextBar = now + 0.05;
+    while(nextBar < now + 0.8){
+      pattern.forEach((note, i)=>{
+        const st = nextBar + i*0.42;
+        playTone(midi(note), st, 0.33, 0.018, 'triangle');
+        if(i%2===0) playTone(midi(note-12), st, 0.22, 0.008, 'sine');
+      });
+      nextBar += pattern.length*0.42;
+    }
+    musicTimer = requestAnimationFrame(schedule);
+  }
+  schedule();
+}
+
+window.toggleMusic = toggleMusic;
+window.startExperience = startExperience;
+window.goReveal = goReveal;
+window.openFinal = openFinal;
+window.restartAll = restartAll;
+
+makeSky();
+render();
+window.addEventListener('resize', makeSky);
+</script>
+</body>
+</html>
